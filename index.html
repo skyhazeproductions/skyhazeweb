@@ -25,11 +25,97 @@
             font-size: 1.2rem;
             opacity: 0.9;
         }
+
+        /* Tabs container */
+        .tabs {
+            display: inline-flex;
+            border-bottom: 2px solid #ff8800;
+            margin-bottom: 20px;
+            gap: 8px;
+        }
+
+        .tab-button {
+            padding: 8px 16px;
+            border: 1px solid #ff8800;
+            border-bottom: none;
+            background: transparent;
+            color: #ff8800;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .tab-button.active {
+            background: #ff8800;
+            color: #000000;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
     </style>
 </head>
 
 <body>
     <h1>Skyhaze Productions</h1>
     <p>A project by Andrei Zagorschi</p>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab-button active" data-tab="about">About</button>
+        <button class="tab-button" data-tab="projects">Final Defenders Game</button>
+        <button class="tab-button" data-tab="contact">Contact</button>
+    </div>
+
+    <!-- Tab content -->
+    <div class="tab-content">
+        <div id="about" class="tab-panel active">
+            <p>Skyhaze Productions is an indie game initiative focused on small, polished experiences built by one person.</p>
+        </div>
+
+        <div id="projects" class="tab-panel">
+            <p>Final Defenders: A solo-developed mobile game combining strategy, tower-defense, and clicker type elements.</p>
+	    <p>What makes it stand out? The game never ends! You will continuously buy upgrades suited to your play style, and the enemy will keep getting stronger!</p>
+	<p>It also features multiple ways to make sure you never get stuck at one specific level.</p>
+	<p></p>
+	<p><a href="https://www.instagram.com/finaldefenders/" target="_blank" style="color:#ff8800;">Instagram Link</a></p>
+
+
+        </div>
+
+        <div id="contact" class="tab-panel">
+            <p>For business inquiries, contact me at: skyhazeproductions@gmail.com</p>
+	    <p>For support related to the Final Defenders game, use: finaldefenders.help@gmail.com</p>
+        </div>
+    </div>
+
+    <script>
+        const buttons = document.querySelectorAll('.tab-button');
+        const panels = document.querySelectorAll('.tab-panel');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const target = button.getAttribute('data-tab');
+
+                // update buttons
+                buttons.forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+
+                // update panels
+                panels.forEach(panel => {
+                    panel.classList.toggle('active', panel.id === target);
+                });
+            });
+        });
+    </script>
 </body>
 </html>
