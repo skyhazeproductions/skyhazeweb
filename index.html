@@ -8,110 +8,410 @@
     <meta name="description" content="Skyhaze Productions — Indie video game development.">
     <meta name="keywords" content="video games, indie games, game studio, Skyhaze, productions">
     <meta name="author" content="Andrei Zagorschi">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #0d180f;
+            --surface: #142919;
+            --surface-2: #1b3320;
+            --border: #2a4a30;
+            --yellow: #e9f45a;
+            --yellow-dim: #c7d94d;
+            --green: #63d98a;
+            --text: #edf6ea;
+            --muted: #9db6a1;
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #000000;
-            color: #ff8800; /* orange text */
+            font-family: 'Inter', Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             margin: 0;
-            padding: 40px;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Rajdhani', 'Inter', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            margin: 0;
+        }
+
+        a { color: var(--yellow); }
+        a:hover { color: var(--green); }
+
+        /* Skip link for accessibility */
+        .skip-link {
+            position: absolute;
+            left: -999px;
+            top: 0;
+            background: var(--yellow);
+            color: #0d180f;
+            padding: 8px 14px;
+            z-index: 100;
+            font-weight: 600;
+        }
+        .skip-link:focus { left: 12px; top: 12px; }
+
+        :focus-visible {
+            outline: 2px solid var(--yellow);
+            outline-offset: 3px;
+        }
+
+        /* ---------- Header ---------- */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+        header img {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+        }
+        header span {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        /* ---------- Hero ---------- */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 90px 24px 70px;
             text-align: center;
         }
+        .haze {
+            position: absolute;
+            inset: -20% -10%;
+            background:
+                radial-gradient(45% 55% at 30% 25%, rgba(233, 244, 90, 0.16), transparent 60%),
+                radial-gradient(50% 60% at 75% 60%, rgba(99, 217, 138, 0.18), transparent 65%);
+            filter: blur(40px);
+            animation: drift 22s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+        @keyframes drift {
+            from { transform: translate(0, 0) scale(1); }
+            to   { transform: translate(3%, -4%) scale(1.08); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .haze { animation: none; }
+        }
+        .hero-inner { position: relative; z-index: 1; }
+        .eyebrow {
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            font-size: 0.8rem;
+            color: var(--green);
+            margin-bottom: 14px;
+        }
         h1 {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
+            font-size: clamp(2.4rem, 7vw, 4rem);
+            background: linear-gradient(100deg, var(--yellow), var(--green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
-        p {
-            font-size: 1.2rem;
-            opacity: 0.9;
+        .tagline {
+            margin: 16px auto 0;
+            max-width: 540px;
+            font-size: 1.1rem;
+            color: var(--muted);
         }
 
-        /* Tabs container */
-        .tabs {
-            display: inline-flex;
-            border-bottom: 2px solid #ff8800;
-            margin-bottom: 20px;
+        /* ---------- Tabs ---------- */
+        nav.tabs {
+            display: flex;
+            justify-content: center;
             gap: 8px;
+            padding: 0 16px;
+            margin-top: 40px;
+            flex-wrap: wrap;
         }
-
         .tab-button {
-            padding: 8px 16px;
-            border: 1px solid #ff8800;
-            border-bottom: none;
-            background: transparent;
-            color: #ff8800;
+            font-family: 'Rajdhani', sans-serif;
+            padding: 10px 22px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: var(--surface);
+            color: var(--muted);
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
         }
-
+        .tab-button:hover {
+            border-color: var(--green);
+            color: var(--text);
+        }
         .tab-button.active {
-            background: #ff8800;
-            color: #000000;
-            font-weight: bold;
+            background: var(--yellow);
+            color: #0d180f;
+            border-color: var(--yellow);
         }
 
-        .tab-content {
-            max-width: 700px;
+        /* ---------- Main content ---------- */
+        main {
+            max-width: 720px;
             margin: 0 auto;
+            padding: 32px 20px 80px;
         }
-
-        .tab-panel {
-            display: none;
-        }
-
+        .tab-panel { display: none; }
         .tab-panel.active {
             display: block;
+            animation: fadeIn 0.35s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px 26px;
+        }
+        .card + .card { margin-top: 16px; }
+        .card h2 {
+            font-size: 1.5rem;
+            color: var(--yellow);
+            margin-bottom: 12px;
+        }
+        .card h3 {
+            font-size: 1.2rem;
+            color: var(--green);
+            margin-bottom: 10px;
+        }
+        .card p { color: var(--text); margin: 0 0 12px; }
+        .card p:last-child { margin-bottom: 0; }
+
+        .entry-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 18px 0 0;
+            display: grid;
+            gap: 12px;
+        }
+        .feature-list li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            padding: 12px 14px;
+            background: var(--surface-2);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        .feature-list li::before {
+            content: "▸";
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .media-16x9 {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: #05100a;
+            object-fit: contain;
+            display: block;
+            margin: 4px 0 18px;
+        }
+
+        .btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 18px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 999px;
+            background: var(--green);
+            color: #0d180f;
+            font-weight: 600;
+            text-decoration: none;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 0.03em;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .btn:hover { background: var(--yellow); color: #0d180f; transform: translateY(-1px); }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--green);
+            color: var(--green);
+        }
+        .btn-outline:hover {
+            background: var(--green);
+            color: #0d180f;
+        }
+
+        .contact-row {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .contact-row .item {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+        }
+        .contact-row .label {
+            display: block;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px;
+            color: var(--muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ---------- Mobile ---------- */
+        @media (max-width: 560px) {
+            .hero { padding: 60px 18px 40px; }
+            nav.tabs {
+                gap: 8px;
+            }
+            .tab-button {
+                flex: 1 1 auto;
+                text-align: center;
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+            .card { padding: 22px 18px; }
         }
     </style>
 </head>
-
 <body>
-    <h1>Skyhaze Productions</h1>
-    <p>A project by Andrei Zagorschi</p>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- Tabs -->
-    <div class="tabs">
+    <header>
+        <img src="SLogo.png" alt="Skyhaze Productions logo">
+        <span>Skyhaze Productions</span>
+    </header>
+
+    <section class="hero">
+        <div class="haze" aria-hidden="true"></div>
+        <div class="hero-inner">
+            <div class="eyebrow">Indie Game Development</div>
+            <h1>Skyhaze Productions</h1>
+            <p class="tagline">A solo game development project by Andrei Zagorschi, focused on small, polished experiences.</p>
+        </div>
+    </section>
+
+    <nav class="tabs" aria-label="Site sections">
         <button class="tab-button active" data-tab="about">About</button>
-        <button class="tab-button" data-tab="projects">Final Defenders Game</button>
+        <button class="tab-button" data-tab="projects">Final Defenders</button>
+        <button class="tab-button" data-tab="roblox">Roblox Games</button>
         <button class="tab-button" data-tab="contact">Contact</button>
-    </div>
+    </nav>
 
-    <!-- Tab content -->
-    <div class="tab-content">
+    <main id="main">
         <div id="about" class="tab-panel active">
-            <p>Skyhaze Productions is an indie game initiative focused on small, polished experiences built by one person.</p>
+            <div class="card">
+                <h2>About</h2>
+                <p>Skyhaze Productions is an indie game initiative focused on small, polished experiences built by one person.</p>
+            </div>
         </div>
 
         <div id="projects" class="tab-panel">
-            <p>Final Defenders: A solo-developed mobile game combining strategy, tower-defense, and clicker type elements.</p>
-	    <p>What makes it stand out? The game never ends! You will continuously buy upgrades suited to your play style, and the enemy will keep getting stronger!</p>
-	<p>It also features multiple ways to make sure you never get stuck at one specific level.</p>
-	<p></p>
-	<p><a href="https://www.instagram.com/finaldefenders/" target="_blank" style="color:#ff8800;">Instagram Link</a></p>
+            <div class="card">
+                <h2>Final Defenders</h2>
+                <img class="media-16x9" src="final-defenders-screenshot.png" alt="Final Defenders gameplay screenshot showing tower-defense combat">
+                <p>A solo-developed mobile game combining strategy, tower-defense, and clicker-type elements.</p>
+                <ul class="feature-list">
+                    <li>The game never ends — continuously buy upgrades suited to your play style as enemies keep getting stronger.</li>
+                    <li>Multiple paths forward, so you're never stuck at one specific level.</li>
+                </ul>
+                <div class="btn-row">
+                    <a class="btn" href="https://play.google.com/store/apps/details?id=com.Skyhaze.FinalDefenders" target="_blank" rel="noopener">Google Play Store Link →</a>
+                    <a class="btn btn-outline" href="https://www.instagram.com/finaldefenders/" target="_blank" rel="noopener">Follow on Instagram →</a>
+                </div>
+            </div>
+        </div>
 
-
+        <div id="roblox" class="tab-panel">
+            <div class="card">
+                <h2>Roblox Games</h2>
+                <p>A couple of Roblox experiences built on the side, outside of Final Defenders.</p>
+            </div>
+            <div class="entry-list">
+                <div class="card">
+                    <img class="media-16x9" src="medieval-street-life-screenshot.jpg" alt="Medieval Street Life screenshot">
+                    <h3>Medieval Street Life</h3>
+                    <p>A medieval-themed street life roleplay experience on Roblox.</p>
+                    <a class="btn" href="https://www.roblox.com/games/115559065482458/Medieval-Street-Life" target="_blank" rel="noopener">Play on Roblox →</a>
+                </div>
+                <div class="card">
+                    <img class="media-16x9" src="escape-the-creepypastas-screenshot.jpg" alt="Escape the Creepypastas screenshot">
+                    <h3>Escape the Creepypastas</h3>
+                    <p>Every round, each player must collect 3 keys to escape. Will you leave your friends behind, or help them escape too?</p>
+                    <a class="btn" href="https://www.roblox.com/games/86243212540961/Escape-the-Creepypastas" target="_blank" rel="noopener">Play on Roblox →</a>
+                </div>
+            </div>
         </div>
 
         <div id="contact" class="tab-panel">
-            <p>For business inquiries, contact me at: skyhazeproductions@gmail.com</p>
-	    <p>For support related to the Final Defenders game, use: finaldefenders.help@gmail.com</p>
+            <div class="card">
+                <h2>Contact</h2>
+                <div class="contact-row">
+                    <div class="item">
+                        <span class="label">Business inquiries</span>
+                        <a href="mailto:skyhazeproductions@gmail.com">skyhazeproductions@gmail.com</a>
+                    </div>
+                    <div class="item">
+                        <span class="label">Final Defenders support</span>
+                        <a href="mailto:finaldefenders.help@gmail.com">finaldefenders.help@gmail.com</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
+
+    <footer>
+        © 2026 Skyhaze Productions — Andrei Zagorschi
+    </footer>
 
     <script>
         const buttons = document.querySelectorAll('.tab-button');
         const panels = document.querySelectorAll('.tab-panel');
-
         buttons.forEach(button => {
             button.addEventListener('click', () => {
                 const target = button.getAttribute('data-tab');
-
-                // update buttons
                 buttons.forEach(b => b.classList.remove('active'));
                 button.classList.add('active');
-
-                // update panels
                 panels.forEach(panel => {
                     panel.classList.toggle('active', panel.id === target);
                 });
